@@ -5,6 +5,9 @@ import lombok.Data;
 @Data
 public class User {
 
+    // id
+    private String id;
+
     // 真实姓名
     private String realName;
 

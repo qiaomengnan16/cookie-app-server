@@ -1,0 +1,3 @@
+# 鉴权类型
+auth:
+  type: cookie # token 、jwt
