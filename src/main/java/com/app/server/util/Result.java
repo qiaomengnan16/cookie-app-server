@@ -6,13 +6,20 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class Result<T> {
 
-    private Integer code;
+    private Integer code = 200;
 
     private String message;
 
     private T data;
+
+    public Result() {
+
+    }
+
+    public Result(T data) {
+        this.data = data;
+    }
 
 }

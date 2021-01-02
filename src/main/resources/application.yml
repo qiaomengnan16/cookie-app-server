@@ -1,3 +1,7 @@
 # 鉴权类型
 auth:
   type: cookie # token 、jwt
+server:
+  servlet:
+    session:
+      timeout: 30

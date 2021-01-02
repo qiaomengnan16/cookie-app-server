@@ -3,6 +3,7 @@ package com.app.server.service;
 import com.app.server.dao.UserDao;
 import com.app.server.model.User;
 import com.app.server.util.ServiceException;
+import com.app.server.util.SessionUtils;
 import com.app.server.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class UserService {
     private UserDao userDao;
 
     @Autowired
-    private SessionService sessionService;
+    private SessionUtils sessionUtils;
 
     // 注冊
     public void register(User user) {
@@ -44,9 +45,9 @@ public class UserService {
     }
 
     // 登录
-    public void login(User user) {
+    public String login(User user) {
         User dbUser = this.checkLogin(user);
-        this.sessionService.save(dbUser.getId(), dbUser);
+        return this.sessionUtils.saveAuth(dbUser);
     }
 
     private User checkLogin(User user) {
