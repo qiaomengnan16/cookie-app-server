@@ -43,12 +43,18 @@ public class UserController {
     }
 
     // 用户领药历史
+    @RequestMapping(value = "/illness/list", method = RequestMethod.POST)
+    public Result userIllnessList() {
+        return new Result(this.userService.userIllnessList());
+    }
+
+    // 用户领药历史
     @RequestMapping(value = "/medicine/list", method = RequestMethod.POST)
     public Result userMedicineList() {
         return new Result(this.userService.userMedicineList());
     }
 
-    // 用户领药历史
+    // 用户确认领取药物
     @RequestMapping(value = "/medicine/confirm", method = RequestMethod.POST)
     public Result userMedicineConfirm(@RequestBody UserMedicine userMedicine) {
         this.userService.userMedicineConfirm(userMedicine.getId());

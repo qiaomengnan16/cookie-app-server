@@ -19,7 +19,7 @@ public class MedicineDao {
         for (int i = 0; i < 10; i++) {
             Medicine medicine = new Medicine();
             medicine.setId(i + "");
-            medicine.setName("药品: " + 0);
+            medicine.setName("药品: " + i);
             MEDICINE_TABLE.put(medicine.getId(), medicine);
         }
     }
