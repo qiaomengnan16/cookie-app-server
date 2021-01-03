@@ -21,8 +21,20 @@ public class UserMedicineDao {
         USER_MEDICINE_TABLE.get(userMedicine.getUserId()).add(userMedicine);
     }
 
-    public List<UserMedicine> getUserMedicine(UserMedicine userMedicine) {
-        return USER_MEDICINE_TABLE.get(userMedicine.getUserId());
+    public List<UserMedicine> getUserMedicine(String userId) {
+        return USER_MEDICINE_TABLE.get(userId);
+    }
+
+    public UserMedicine getUserMedicineById(String userId, String id) {
+        List<UserMedicine> userMedicines = USER_MEDICINE_TABLE.get(userId);
+        if (userMedicines != null) {
+            for (UserMedicine userMedicine : userMedicines) {
+                if (userMedicine.getId().equals(id)) {
+                    return userMedicine;
+                }
+            }
+        }
+        return null;
     }
 
 }

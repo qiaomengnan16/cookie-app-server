@@ -21,8 +21,6 @@ public class UserFilter implements Filter {
 
     private String[] prefixIgnores = new String[]{"/user/register", "/user/login"};
 
-    private static final String USER_HEADER = "USER_HEADER";
-
     private static final String CURRENT_USER = "CURRENT_USER";
 
     @Override
@@ -39,15 +37,12 @@ public class UserFilter implements Filter {
             String requestUri = request.getRequestURI();
             boolean valid = UrlMatchingUtils.matching(requestUri,prefixIgnores);
             if(valid){
-                //拿到token
-                String userHeader = request.getHeader(USER_HEADER);
-                if(!StringUtils.isEmpty(userHeader)){
-                    User user = sessionUtils.getAuth(userHeader);
-                    // token验证成功得到用户信息
-                    if(user != null){
-                        request.setAttribute(CURRENT_USER, user);
-                        result = true;
-                    }
+                // 获取当前会话登录用户
+                User user = sessionUtils.getAuth();
+                // token验证成功得到用户信息
+                if(user != null){
+                    request.setAttribute(CURRENT_USER, user);
+                    result = true;
                 }
             }else{
                 result = true;

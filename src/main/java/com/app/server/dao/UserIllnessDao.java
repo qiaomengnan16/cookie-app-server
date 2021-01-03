@@ -23,8 +23,8 @@ public class UserIllnessDao {
     }
 
     // 返回用户看病历史
-    public List<UserIllness> getUserIllness(UserIllness userIllness) {
-        return USER_MEDICINE_TABLE.get(userIllness.getUserId());
+    public List<UserIllness> getUserIllness(String userId) {
+        return USER_MEDICINE_TABLE.get(userId);
     }
 
 }

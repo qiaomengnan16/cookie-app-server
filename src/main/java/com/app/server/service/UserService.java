@@ -1,22 +1,36 @@
 package com.app.server.service;
 
 import com.app.server.dao.UserDao;
+import com.app.server.dao.UserIllnessDao;
+import com.app.server.dao.UserMedicineDao;
 import com.app.server.model.User;
+import com.app.server.model.UserIllness;
+import com.app.server.model.UserMedicine;
 import com.app.server.util.ServiceException;
 import com.app.server.util.SessionUtils;
 import com.app.server.util.UUIDUtils;
+import com.app.server.util.UserMedicineStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 @Service
 public class UserService {
 
-    @Autowired
+    @Resource
     private UserDao userDao;
 
-    @Autowired
+    @Resource
     private SessionUtils sessionUtils;
+
+    @Resource
+    private UserMedicineDao userMedicineDao;
+
+    @Resource
+    private UserIllnessDao userIllnessDao;
 
     // 注冊
     public void register(User user) {
@@ -65,6 +79,24 @@ public class UserService {
             throw new ServiceException("身份证号或者姓名错误");
         }
         return dbUser;
+    }
+
+    // 用户看病历史
+    public List<UserIllness> userIllnessList() {
+        return this.userIllnessDao.getUserIllness(this.sessionUtils.getAuth().getId());
+    }
+
+    // 用户领药历史
+    public List<UserMedicine> userMedicineList() {
+        return this.userMedicineDao.getUserMedicine(this.sessionUtils.getAuth().getId());
+    }
+
+    // 用户领药历史
+    public void userMedicineConfirm(String id) {
+        UserMedicine userMedicine = this.userMedicineDao.getUserMedicineById(this.sessionUtils.getAuth().getId(), id);
+        if (userMedicine != null) {
+            userMedicine.setStatus(UserMedicineStatus.YES.getType());
+        }
     }
 
 }

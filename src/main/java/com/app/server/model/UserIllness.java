@@ -6,10 +6,16 @@ import lombok.Data;
 @Data
 public class UserIllness {
 
+    // id
+    private String id;
+
     // 用户ID
     private String userId;
 
     // 药品ID
     private String illnessId;
+
+    // 药品名称
+    private String illnessName;
 
 }

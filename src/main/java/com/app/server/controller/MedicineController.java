@@ -18,10 +18,18 @@ public class MedicineController {
     private MedicineService medicineService;
 
     // 拿药
-    @RequestMapping(value = "getMedicine", method = RequestMethod.POST)
-    public Result getMedicine(@RequestBody Medicine medicine) {
-
-        return new Result();
+    @RequestMapping(value = "list", method = RequestMethod.POST)
+    public Result list() {
+        return new Result(this.medicineService.list());
     }
+
+    // 拿药
+    @RequestMapping(value = "get", method = RequestMethod.POST)
+    public Result get(@RequestBody Medicine medicine) {
+        return new Result(this.medicineService.get(medicine.getId()));
+    }
+
+
+
 
 }

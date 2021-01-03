@@ -19,9 +19,21 @@ public class IllnessController {
     private IllnessService illnessService;
 
     // 看病
-    @RequestMapping(value = "lookIllness", method = RequestMethod.POST)
-    public Result lookIllness(@RequestBody Illness illness) {
+    @RequestMapping(value = "list", method = RequestMethod.POST)
+    public Result list() {
+        return new Result(this.illnessService.list());
+    }
 
+    // 看病
+    @RequestMapping(value = "get", method = RequestMethod.POST)
+    public Result lookIllness(@RequestBody Illness illness) {
+        return new Result(this.illnessService.get(illness.getId()));
+    }
+
+    // 看病
+    @RequestMapping(value = "confirm", method = RequestMethod.POST)
+    public Result confirm(@RequestBody Illness illness) {
+        this.illnessService.confirm(illness.getId());
         return new Result();
     }
 

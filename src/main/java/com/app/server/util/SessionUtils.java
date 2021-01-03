@@ -19,7 +19,7 @@ public class SessionUtils {
     private String authType;
 
     // 超时时间
-    @Value("${server.servlet.session.timeout}")
+    @Value("${server.servlet.session.timeout2}")
     public int EXPIRE_TIME;
 
     // jwt对象
@@ -28,6 +28,8 @@ public class SessionUtils {
 
     // session key
     private final String SESSION_USER_KEY = "SESSION_USER";
+
+    private static final String USER_HEADER = "USER_HEADER";
 
     // 缓存 (模仿redis)
     private final Cache<Object, Object> guavaCache = CacheBuilder.newBuilder()
@@ -55,16 +57,16 @@ public class SessionUtils {
     }
 
     // 返回当前登录用户
-    public User getAuth(String token) {
+    public User getAuth() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         if (AuthTypes.COOKIE.getType().equals(authType)) {
-            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
             return (User)servletRequestAttributes.getRequest().getSession().getAttribute(SESSION_USER_KEY);
         }
         if (AuthTypes.TOKEN.getType().equals(authType)) {
-            return (User) guavaCache.getIfPresent(token);
+            return (User) guavaCache.getIfPresent(servletRequestAttributes.getRequest().getHeader(USER_HEADER));
         }
         if (AuthTypes.JWT.getType().equals(authType)) {
-            return jwtUtils.checkToken(token);
+            return jwtUtils.checkToken(servletRequestAttributes.getRequest().getHeader(USER_HEADER));
         }
         return null;
     }
